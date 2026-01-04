@@ -1,0 +1,50 @@
+class BankingSystem extends Thread{
+    public synchronized void withdraw(double amount)
+    {
+        System.out.println("Withdrawing amount:"+amount);
+    }
+    public synchronized void deposit(double amount)
+    {
+        System.out.println("Depositing amount:"+amount);
+    }
+    public synchronized void transfer(double amount)
+    {
+        System.out.println("Transferring amount:"+amount);
+    }
+    public synchronized void checkBalance(double amount)
+    {
+        System.out.println("Checking balance amount:"+amount);
+    }
+}
+public class SynchronizedMethodDemo1 {
+    public static void main(String[] args)
+    {
+        BankingSystem bank1=new BankingSystem();
+        Thread t1=new Thread(()->
+    {
+        bank1.withdraw(2321);
+    });
+        Thread t2=new Thread(()->
+    {
+        bank1.deposit(5555);
+    });
+        Thread t3=new Thread(()->
+    {
+        bank1.transfer(45532);
+    });
+        Thread t4=new Thread(()->
+    {
+        bank1.checkBalance(4453);
+    });
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+    }
+}
+//t2,t3,t4 are blocked state
+/*t1: lock(bank1) → withdraw() → unlock
+t2: BLOCKED → waiting for lock
+t3: BLOCKED → waiting for lock
+t4: BLOCKED → waiting for lock
+ */
